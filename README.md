@@ -1,123 +1,90 @@
-Data Cleaning dan Penskalaan Kondisional
+# Data Cleaning dan Penskalaan Kondisional (TYBAS_LIDIA)
 
-Ini adalah proyek inti untuk implementasi pipeline pembersihan data, yang berfokus pada pemuatan, pemeriksaan, dan penerapan logika penskalaan kondisional pada fitur-fitur numerik dalam dataset. Tujuannya adalah untuk memastikan konsistensi dan integritas data sebelum digunakan untuk analisis lebih lanjut atau pemodelan Machine Learning.
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
+![Pandas](https://img.shields.io/badge/Pandas-Transformation-informational?style=for-the-badge&logo=pandas)
+![Jupyter](https://img.shields.io/badge/Jupyter-Pipeline-red?style=for-the-badge&logo=jupyter)
 
-Fitur Utama
+Ini adalah proyek inti yang berfokus pada pembangunan *pipeline* pembersihan dan transformasi data untuk dataset terstruktur. Tujuannya adalah untuk mengoreksi ketidaksesuaian skala dalam kolom fitur utama secara kondisional, memastikan data siap untuk analisis atau pemodelan Machine Learning.
 
-Pemuatan Data: Membaca data dari format file Excel (.xlsx) ke dalam DataFrame Pandas.
+## Fitur Utama
 
-Pemeriksaan Awal: Analisis data awal untuk mengidentifikasi tipe data, nilai yang hilang, dan struktur kolom.
+- **Pemuatan Data Excel:** Mengimpor data mentah langsung dari file `.xlsx` menggunakan Pandas.
+- **Pemeriksaan Kualitas Data:** Melakukan pemeriksaan awal pada tipe data dan statistik deskriptif.
+- **Penskalaan Kondisional (Core Logic):** Menerapkan fungsi kustom untuk menyesuaikan nilai dalam kolom `AA1` hingga `AA5` berdasarkan ambang batas tertentu.
+- **Debugging & Verifikasi:** Memastikan bahwa nilai yang salah skala telah berhasil diperbaiki dan data kini konsisten.
 
-Pembersihan Bersyarat (Conditional Cleaning): Menerapkan fungsi kustom untuk mengoreksi potensi kesalahan unit atau skala pada kolom fitur utama.
+## Arsitektur Pipeline
 
-Penskalaan Otomatis: Logika ini berfokus pada penyesuaian nilai yang tampaknya salah skala secara otomatis.
+Proyek ini menggunakan alur kerja linier untuk transformasi data. Logika pembersihan utama berpusat pada penyesuaian unit/skala yang diyakini salah dalam kolom fitur.
 
-Arsitektur Sistem
+| Tahap | Proses | Output | Keterangan |
+| :--- | :--- | :--- | :--- |
+| **1. Inisialisasi** | `Data Loading` | Raw DataFrame | Memuat data dari file `pivot_55_description_640rows(2).xlsx`. |
+| **2. Penskalaan** | `Conditional Scaling` | Transformed DataFrame | Menerapkan fungsi kustom untuk mengoreksi nilai yang terlalu besar (misalnya, kesalahan unit/desimal). |
+| **3. Finalisasi** | `Verification` | Cleaned DataFrame | Mencetak data untuk mengonfirmasi bahwa penskalaan telah diterapkan dengan benar. |
 
-Aliran data di dalam pipeline pembersihan ini sangat linier:
+## Logika Pembersihan Inti
 
-Tahap
+Logika penskalaan kondisional adalah aspek paling krusial dari *pipeline* ini, dirancang untuk memperbaiki kesalahan skala yang umum (misalnya, data dalam meter tercatat sebagai milimeter).
 
-Input
+### Fungsi Penskalaan
 
-Proses Utama
+Logika ini diterapkan pada kolom **AA1, AA2, AA3, AA4, dan AA5**.
 
-Output
-
-1. Inisialisasi
-
-pivot_55_description_640rows(2).xlsx
-
-Pemuatan file ke Pandas DataFrame.
-
-DataMentah (Raw DataFrame)
-
-2. Pembersihan Inti
-
-Kolom AA1, AA2, AA3, AA4, AA5
-
-Fungsi divide_by_1000 diterapkan.
-
-DataBersih (Cleaned DataFrame)
-
-3. Finalisasi
-
-DataBersih
-
-Pengecekan statistik dan konfirmasi.
-
-DataSiap (Ready-for-Analysis Data)
-
-Logika Penskalaan
-
-Proyek ini mendefinisikan dan menerapkan fungsi penskalaan kustom yang bertujuan untuk memperbaiki potensi unit errors di mana nilai seharusnya berada dalam kisaran yang lebih kecil.
-
-Aturan Penerapan
-
-Logika ini hanya diterapkan pada kolom AA1 hingga AA5.
-
-# Logika utama penskalaan kondisional:
-# Jika nilai > 10, bagi nilai tersebut dengan 1000.
+```python
+# Fungsi kustom untuk membagi nilai dengan 1000 jika nilai tersebut lebih besar dari 10.
 def divide_by_1000(value):
     if value > 10:
         return value / 1000
     return value
+````
 
+### Penerapan Logika
 
-Penerapan pada Kolom
-
-Logika diterapkan secara element-wise ke setiap sel di kolom yang ditargetkan.
-
-# Menerapkan fungsi ke semua kolom AA1 hingga AA5
+```python
+# Menerapkan fungsi ke kolom yang ditargetkan menggunakan Pandas .apply()
 columns_to_scale = ['AA1', 'AA2', 'AA3', 'AA4', 'AA5']
 for col in columns_to_scale:
     df[col] = df[col].apply(divide_by_1000)
+```
 
+## Struktur Proyek
 
-Struktur Proyek
+  - `data_cleaning_pipeline/`
+      - **`TYBAS_LIDIA.ipynb`**: Notebook utama yang berisi semua langkah, kode, dan hasil eksekusi.
+      - `pivot_55_description_640rows(2).xlsx`: File data input.
+      - `README.md`
 
-Proyek ini terdiri dari satu Jupyter Notebook utama yang berisi semua langkah, dari pemuatan data hingga verifikasi akhir.
+## Penyiapan dan Instalasi
 
-proyek_cleaning/
+### Prasyarat
 
-TYBAS_LIDIA.ipynb: Notebook utama yang berisi kode, analisis awal, definisi fungsi, dan penerapan penskalaan kondisional.
+  - Lingkungan Python 3.x
+  - Perpustakaan: `pandas`, `numpy`, `openpyxl`
 
-pivot_55_description_640rows(2).xlsx: File data input.
+### Langkah-langkah
 
-Penyiapan dan Instalasi
+1.  **Clone Repositori**
 
-Prasyarat
+    ```bash
+    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+    cd your-repo-name
+    ```
 
-Lingkungan Python 3.x
+2.  **Instal Dependensi**
 
-pandas
+    ```bash
+    pip install pandas numpy openpyxl
+    ```
 
-numpy
+## Cara Menjalankan
 
-openpyxl (untuk membaca file Excel)
+1.  Pastikan file data Excel (`pivot_55_description_640rows(2).xlsx`) berada di direktori yang sama dengan notebook.
+2.  Buka notebook di JupyterLab atau VS Code:
+    ```bash
+    jupyter notebook TYBAS_LIDIA.ipynb
+    ```
+3.  Jalankan semua sel dari awal hingga akhir untuk mengeksekusi *pipeline* pembersihan dan melihat hasilnya.
 
-Jupyter Notebook atau JupyterLab
+<!-- end list -->
 
-Langkah-langkah
-
-Clone Repositori (Jika ini adalah repositori Git)
-
-git clone <url-repositori-anda>
-cd <nama-folder-proyek>
-
-
-Instal Dependensi
-
-pip install pandas numpy openpyxl
-
-
-Cara Menjalankan
-
-Pastikan file data Excel (pivot_55_description_640rows(2).xlsx) berada di direktori yang sama dengan notebook.
-
-Buka notebook TYBAS_LIDIA.ipynb:
-
-jupyter notebook TYBAS_LIDIA.ipynb
-
-
-Jalankan semua sel di notebook untuk melihat setiap tahap pembersihan data, dari pemuatan hingga hasil akhir yang diskalakan.
