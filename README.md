@@ -10,13 +10,13 @@ Proyek ini adalah *notebook* Jupyter (`.ipynb`) yang mendokumentasikan proses *e
 
 ## 🛢️ Latar Belakang Proyek
 
-Data berasal dari lapangan lepas pantai dengan 5 sumur aktif (AA1 - AA5) yang memproduksi *dry gas* dan air, dimulai sekitar tahun 2021[cite: 222]. Setiap sumur dilengkapi dengan berbagai sensor tekanan dan temperatur pada *choke*, *casing-annulus*, *wellhead*, dan *bottomhole*.
+Data berasal dari lapangan lepas pantai dengan 5 sumur aktif (AA1 - AA5) yang memproduksi *dry gas* dan air, dimulai sekitar tahun 2021. Setiap sumur dilengkapi dengan berbagai sensor tekanan dan temperatur pada *choke*, *casing-annulus*, *wellhead*, dan *bottomhole*.
 
 Tujuan utama adalah membersihkan data dari *noise* dan membangun model prediksi yang akurat untuk parameter produksi.
 
 ## 📂 Kamus Data (Data Dictionary)
 
-Dataset asli memiliki format lebar (*wide format*) dengan kode sensor tertentu. Berikut adalah pemetaan variabel yang digunakan dalam analisis [cite: 225-227]:
+Dataset asli memiliki format lebar (*wide format*) dengan kode sensor tertentu. Berikut adalah pemetaan variabel yang digunakan dalam analisis:
 
 | Kode Variabel | Deskripsi Fisik | Satuan (Asumsi) |
 | :--- | :--- | :--- |
